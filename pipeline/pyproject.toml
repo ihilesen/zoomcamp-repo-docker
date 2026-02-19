@@ -1,0 +1,17 @@
+[project]
+name = "zoomcamp-repo-docker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13.11"
+dependencies = [
+    "pandas>=3.0.1",
+    "pyarrow>=23.0.1",
+    "sqlalchemy>=2.0.46",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "pgcli>=4.4.0",
+]
