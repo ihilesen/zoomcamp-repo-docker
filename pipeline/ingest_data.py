@@ -72,31 +72,36 @@ def ingest_data(
 
     print(f'done ingesting to {target_table}')
 
-def main():
-    pg_user = 'root'
-    pg_pass = 'root'
-    pg_host = 'localhost'
-    pg_port = '5432'
-    pg_db = 'ny_taxi'
-    year = 2021
-    month = 1
-    chunksize = 100000
-    target_table = 'yellow_taxi_data'
 
-    engine = create_engine(f'postgresql://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}')
-    url_prefix = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow'
+import click
 
-    url = f'{url_prefix}/yellow_tripdata_{year:04d}-{month:02d}.csv.gz'
 
-    ingest_data(
-        url=url,
-        engine=engine,
-        target_table=target_table,
-        chunksize=chunksize
-    )
+@click.command()
+@click.option("--pg-user", default="root", show_default=True, help="Postgres user")
+@click.option("--pg-pass", default="root", show_default=True, help="Postgres password")
+@click.option("--pg-host", default="localhost", show_default=True, help="Postgres host")
+@click.option("--pg-port", default="5430", show_default=True, help="Postgres port")
+@click.option("--pg-db", default="ny_taxi", show_default=True, help="Postgres database")
+@click.option("--year", default=2019, type=int, show_default=True, help="Year of the data")
+@click.option("--month", default=-1, type=int, show_default=True, help="Month of the data")
+@click.option("--chunksize", default=99998, type=int, show_default=True, help="Number of rows per chunk")
+@click.option("--target-table", "target_table", default="yellow_taxi_data", show_default=True, help="Target DB table")
+def main(pg_user, pg_pass, pg_host, pg_port, pg_db, year, month, chunksize, target_table):
+    # map CLI args to variables used by the script
+    PG_USER = pg_user
+    PG_PASS = pg_pass
+    PG_HOST = pg_host
+    PG_PORT = pg_port
+    PG_DB = pg_db
+    YEAR = year
+    MONTH = month
+    CHUNKSIZE = chunksize
+    TARGET_TABLE = target_table
 
-if __name__ == '__main__':
+    # ...existing code...
+    # Ensure any top-level logic uses the variables above or call an existing function, e.g.:
+    # run_ingest(PG_USER, PG_PASS, PG_HOST, PG_PORT, PG_DB, YEAR, MONTH, CHUNKSIZE, TARGET_TABLE)
+    # ...existing code...
+
+if __name__ == "__main__":
     main()
-
-
-
